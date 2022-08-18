@@ -120,12 +120,14 @@ class MyCar
 
   def spray_paint(paint)
 
+    #Painting car
     self.color = paint
 
   end
 
 end
 
+#Test
 tocomocho = MyCar.new("Suzuki", "Baleno", 2019, "grey")
 puts tocomocho.info
 puts tocomocho.status
