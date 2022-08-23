@@ -1,84 +1,105 @@
 #Copyright (c) 2022 Claudio Martínez Ortiz
 
-class MyCar
+module Towable
+  
+  # Couldn't think of a cool, simple functionality to add with module
+  def can_tow?(pounds)
+
+    pounds < 2000
+
+  end
+
+end
+
+class Vehicle
 
   attr_accessor :color, :speed, :ignition
   attr_reader :make, :model, :year
 
+  @@vehicles = 0
+
   def initialize(mk, md, y, c)
-    @make = mk
+
+    @make =mk
     @model = md
     @year = y
     self.color = c
     self.speed = 0
     self.ignition = false
+    @@vehicles += 1
 
   end
 
-  def info
+  def info(vehicle)
 
-    "\nYour car is a #{color} #{make} #{model} #{year}"
+    "\nYour #{vehicle} is a #{color} #{make} #{model} #{year}"
 
   end
 
-  def status
+  def status(vehicle)
 
     #Car going at n speed, stopped but engine going or completely stopped
     if self.ignition == true && self.speed != 0
 
-      "\nYour car is going at #{speed}km/h"
+      "\nYour #{vehicle} is going at #{speed}km/h"
 
     elsif self.ignition == true
 
-      "\nYour car is running on standby"
+      "\nYour #{vehicle} is running on standby"
 
     else
 
-      "\nYour car is parked and the engine is off"
+      "\nYour #{vehicle} is parked and the engine is off"
 
     end
 
   end
 
-  def start
+  def age(vehicle)
+
+    "Your #{vehicle} is #{years} years old"
+
+  end
+
+  def start(vehicle)
 
     #start engine
     if self.ignition == false
 
       self.ignition = true
 
-    else puts start_error
+    else puts start_error(vehicle)
 
     end
 
   end
 
-  def stop
+  def stop(vehicle)
 
     #stop engine
     if self.ignition == true
 
       self.ignition = false
 
-    else puts stop_error
+    else puts stop_error(vehicle)
 
     end
 
   end
 
-  def accelerate(kmhm)
+  def accelerate(kmhm, vehicle)
 
     if self.ignition == true
 
       self.speed += kmhm
 
-    else puts ignition_error
+    else puts ignition_error(vehicle)
 
     end
   
   end
 
-  def brake(kmhm)
+  def brake(kmhm, vehicle)
 
     if self.speed > 0 && self.speed - kmhm > 0
 
@@ -88,40 +109,215 @@ class MyCar
 
       self.speed = 0
 
-    else car_stopped_error
+    else vehicle_stopped_error(vehicle)
 
     end
   
   end
 
-  def start_error
+  def spray_paint(paint, vehicle)
 
-    puts "\nCar engine is alreaady started"
-
-  end
-
-  def stop_error
-
-    puts "\nCar engine is already off"
+    #Painting car
+    self.color = paint
+    puts "You have painted your #{vehicle} #{paint}"
 
   end
 
-  def ignition_error
+  def self.mileage(liters, km, vehicle)
 
-    puts "\nCan't accelerate with the car engine off"
+    #Mileage class method
+    puts "#{km / liters} kilometers per liter of gas"
+
+  end
+
+  def to_s(vehicle = "vehicle")
+
+    #Replace to_s method
+    "My #{vehicle} is a #{color} #{make} #{model} #{year}"
+
+  end
+
+  private
+
+  def self.ammount
+
+    @@vehicles
+
+  end
+
+  def years
+
+  Time.now.year - year
+
+  end
+
+  def start_error(vehicle)
+
+    puts "\n#{vehicle.capitalize} engine is already started"
+
+  end
+
+  def stop_error(vehicle)
+
+    puts "\n#{vehicle.capitalize} engine is already off"
+
+  end
+
+  def ignition_error(vehicle)
+
+    puts "\nCan't accelerate with the #{vehicle} engine off"
  
   end
 
-  def car_stopped_error
+  def vehicle_stopped_error(vehicle)
 
-    puts "\nCar is already stopped"
+    puts "\n#{vehicle.capitalize} is already stopped"
 
+  end
+
+end
+
+
+class MyCar < Vehicle
+
+  TYPE = "car"
+
+  def initialize(mk, md, y, c)
+
+    super(mk, md, y, c)
+
+  end
+
+  def info
+
+    super(TYPE)
+
+  end
+
+  def status
+
+    super(TYPE)
+
+  end
+
+  def age
+
+    super(TYPE)
+
+  end
+
+  def start
+
+    super(TYPE)
+
+  end
+
+  def stop
+
+    super(TYPE)
+
+  end
+
+  def accelerate(kmhm)
+
+    super(kmhm, TYPE)
+  
+  end
+
+  def brake(kmhm)
+
+    super(kmhm, TYPE)
+  
   end
 
   def spray_paint(paint)
 
-    #Painting car
-    self.color = paint
+    super(paint, TYPE)
+
+  end
+
+  def self.mileage(liters, km)
+
+    super(liters, km, TYPE)
+
+  end
+
+  def to_s
+
+    super(TYPE)
+
+  end
+
+end
+
+class MyTruck < Vehicle
+
+  include Towable
+  TYPE = "truck"
+
+  def initialize(mk, md, y, c)
+
+    super(mk, md, y, c)
+
+  end
+
+  def info
+
+    super(TYPE)
+
+  end
+
+  def status
+
+    super(TYPE)
+
+  end
+
+  def age
+
+    super(TYPE)
+
+  end
+
+  def start
+
+    super(TYPE)
+
+  end
+
+  def stop
+
+    super(TYPE)
+
+  end
+
+  def accelerate(kmhm)
+
+    super(kmhm, TYPE)
+  
+  end
+
+  def brake(kmhm)
+
+    super(kmhm, TYPE)
+  
+  end
+
+  def spray_paint(paint)
+
+    super(paint, TYPE)
+
+  end
+
+  def self.mileage(liters, km)
+
+    super(liters, km, TYPE)
+
+  end
+
+  def to_s
+
+    super(TYPE)
 
   end
 
@@ -153,3 +349,40 @@ tocomocho.accelerate(60)
 tocomocho.stop
 tocomocho.spray_paint("red")
 puts tocomocho.info
+MyCar.mileage(20, 300)
+puts tocomocho
+yunta = MyTruck.new("Mitsubishi", "L200", 2020, "white")
+puts yunta.info
+puts yunta.status
+yunta.start
+puts yunta.status
+yunta.accelerate(70)
+puts yunta.status
+yunta.brake(20)
+puts yunta.status
+yunta.accelerate(30)
+puts yunta.status
+yunta.brake(40)
+puts yunta.status
+yunta.brake(20)
+puts yunta.status
+yunta.brake(100)
+puts yunta.status
+puts yunta.start
+puts yunta.brake(20)
+yunta.stop
+puts yunta.status
+yunta.accelerate(80)
+yunta.stop
+yunta.spray_paint("black")
+puts yunta.info
+MyTruck.mileage(30, 600)
+puts yunta
+puts yunta.can_tow?(1500)
+puts yunta.can_tow?(20000)
+puts Vehicle.ammount
+puts MyCar.ancestors
+puts MyTruck.ancestors
+puts Vehicle.ancestors
+puts tocomocho.age
+puts yunta.age
