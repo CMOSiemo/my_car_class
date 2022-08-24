@@ -13,14 +13,17 @@ end
 
 class Vehicle
 
+  # Getters and setters
   attr_accessor :color, :speed, :ignition
   attr_reader :make, :model, :year
 
+  # Instance counter
   @@vehicles = 0
 
   def initialize(mk, md, y, c)
 
-    @make =mk
+    # Instance attributes
+    @make = mk
     @model = md
     @year = y
     self.color = c
@@ -32,13 +35,14 @@ class Vehicle
 
   def info(vehicle)
 
+    # Returns general mostly immutable info on vehicle
     "\nYour #{vehicle} is a #{color} #{make} #{model} #{year}"
 
   end
 
   def status(vehicle)
 
-    #Car going at n speed, stopped but engine going or completely stopped
+    # Returns current engine and speed status of vehicle
     if self.ignition == true && self.speed != 0
 
       "\nYour #{vehicle} is going at #{speed}km/h"
@@ -57,13 +61,14 @@ class Vehicle
 
   def age(vehicle)
 
+    # Returns age of vehicle
     "Your #{vehicle} is #{years} years old"
 
   end
 
   def start(vehicle)
 
-    #start engine
+    # Starts engine
     if self.ignition == false
 
       self.ignition = true
@@ -76,7 +81,7 @@ class Vehicle
 
   def stop(vehicle)
 
-    #stop engine
+    # Stops engine
     if self.ignition == true
 
       self.ignition = false
@@ -89,6 +94,7 @@ class Vehicle
 
   def accelerate(kmhm, vehicle)
 
+    # Pretty self explanatory
     if self.ignition == true
 
       self.speed += kmhm
@@ -101,6 +107,7 @@ class Vehicle
 
   def brake(kmhm, vehicle)
 
+    # Same as above
     if self.speed > 0 && self.speed - kmhm > 0
 
       self.speed -= kmhm
@@ -117,7 +124,7 @@ class Vehicle
 
   def spray_paint(paint, vehicle)
 
-    #Painting car
+    # Painting car
     self.color = paint
     puts "You have painted your #{vehicle} #{paint}"
 
@@ -125,14 +132,14 @@ class Vehicle
 
   def self.mileage(liters, km, vehicle)
 
-    #Mileage class method
+    # Mileage class method, but in kilometers. Kilometerage
     puts "#{km / liters} kilometers per liter of gas"
 
   end
 
   def to_s(vehicle = "vehicle")
 
-    #Replace to_s method
+    # Replace to_s method
     "My #{vehicle} is a #{color} #{make} #{model} #{year}"
 
   end
@@ -141,18 +148,21 @@ class Vehicle
 
   def self.ammount
 
+    # Returns vehicles counter
     @@vehicles
 
   end
 
   def years
 
+  # Returns age of vehicle
   Time.now.year - year
 
   end
 
   def start_error(vehicle)
 
+    # Self explanatory
     puts "\n#{vehicle.capitalize} engine is already started"
 
   end
@@ -180,6 +190,8 @@ end
 
 class MyCar < Vehicle
 
+  # Most methods replace parent class methods but invoke them passing the TYPE
+  # constant of the subclass
   TYPE = "car"
 
   def initialize(mk, md, y, c)
@@ -252,6 +264,7 @@ end
 
 class MyTruck < Vehicle
 
+  # Same as MyCar but includes Towable module
   include Towable
   TYPE = "truck"
 
@@ -323,7 +336,7 @@ class MyTruck < Vehicle
 
 end
 
-#Test
+# Tests
 tocomocho = MyCar.new("Suzuki", "Baleno", 2019, "grey")
 puts tocomocho.info
 puts tocomocho.status
